@@ -1,0 +1,86 @@
+﻿@model NumericSequenceCalculator.Models.HomeModel
+
+<h2 style="text-align: center">Numeric Sequence Calculator</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.InputNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.InputNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InputNumber, "", new { @class = "text-danger" })
+                <br />
+                <input type="submit" value="Display now" class="btn btn-success" id="btnCalculate" />
+
+            </div>
+            <div class="col-md-6">
+                <h4>Instructions</h4>
+                <ul>
+                    <li>Enter a positive whole number and click 'Display now' button</li>
+                    <li>
+                        It will display sequence of:
+                        <ul>
+                            <li>all numbers up to & including input number entered</li>
+                            <li>odd numbers up to & including input number entered</li>
+                            <li>even numbers up to & including input number entered</li>
+                            <li>all numbers up to & including input number entered but when multiple of 3 show C, multiple of 5 show E, multiple of both show Z</li>
+                            <li>all Fibonacci number up & including to input number entered</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Result != null)
+{
+    <div>
+
+        <h3>Sequence</h3>
+        <div id="divSequenceNormal" class="divSequence" style="overflow-y: scroll; height:200px;">
+            @Html.Raw(Model.Result.Sequence.Str.ToString())
+            <div class="next" style="display: none;"><a class="jscroll-next" href="@Model.Result.Sequence.NextSequenceUrl">next</a></div>
+        </div>
+
+        <h3>Evens</h3>
+        <div id="divSequenceEvens" class="divSequence" style="overflow-y: scroll; height:200px;">
+            @Html.Raw(Model.Result.EvensSequence.Str.ToString())
+            <div class="next" style="display: none;"><a class="jscroll-next" href="@Model.Result.EvensSequence.NextSequenceUrl">next</a></div>
+        </div>
+
+        <h3>Odds</h3>
+        <div id="divSequenceOdds" class="divSequence" style="overflow-y: scroll; height:200px;">
+            @Html.Raw(Model.Result.OddsSequence.Str.ToString())
+            <div class="next" style="display: none;"><a class="jscroll-next" href="@Model.Result.OddsSequence.NextSequenceUrl">next</a></div>
+        </div>
+
+        <h3>Z C E Sequence</h3>
+        <div id="divSequenceZce" class="divSequence" style="overflow-y: scroll; height:200px;">
+            @Html.Raw(Model.Result.ZceSequence.Str.ToString())
+            <div class="next" style="display: none;"><a class="jscroll-next" href="@Model.Result.ZceSequence.NextSequenceUrl">next</a></div>
+        </div>
+
+        <h3>Fibonacci</h3>
+        <div id="divSequenceFibonacci" class="divSequence" style="overflow-y: scroll; height:200px;">
+            @Html.Raw(Model.Result.FibonacciSequence.Str.ToString())
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('.divSequence').jscroll({
+                padding: 20,
+                nextSelector: 'a.jscroll-next:last'
+            });
+        });
+    </script>
+}
+

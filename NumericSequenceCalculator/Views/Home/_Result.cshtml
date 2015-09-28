@@ -1,0 +1,6 @@
+﻿@model NumericSequenceCalculator.Models.SequenceModel
+<span>@Html.Raw(Model.Str)</span>
+@if (Model.IsMoreResult)
+{
+    <div class="next" style="display: none;"><a class="jscroll-next" href="@Model.NextSequenceUrl">next</a></div>
+}
